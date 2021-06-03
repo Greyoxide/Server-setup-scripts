@@ -41,21 +41,22 @@ echo 'deploy user created'
 
 
 #allow user to restart nginx
-touch /etc/sudoers.d/deploy
 echo 'deploy ALL=(ALL) NOPASSWD: /usr/sbin/service nginx start,/usr/sbin/service nginx stop,/usr/sbin/service nginx restart' >> /etc/sudoers.d/deploy
 chmod 0440 /etc/sudoers.d/deploy
+
+#add user to postgresql
+sudo -u postgres createuser deploy
 
 # setup user stuff
 cd /home/deploy
 
+echo "User: $PASS" >> out.txt
+
 curl https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/user_ruby_setup.sh  --output user_script.sh
 
-chmod 750 user_script.sh
+chmod 777 user_script.sh
 chmod +x user_script.sh
 
 su deploy -c './user_script.sh'
-
-#add user to postgresql
-sudo -u postgres createuser deploy
 
 exit 0

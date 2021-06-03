@@ -56,7 +56,7 @@ su deploy
 echo "User: $PASS" >> out.txt
 
 #generate ssh key to pull
-ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -m pem <<< y
+ssh-keygen -t rsa -N "" -f '~/.ssh/id_rsa'
 
 echo 'SSH key generated'
 

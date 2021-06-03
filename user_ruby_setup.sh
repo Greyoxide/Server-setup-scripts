@@ -1,6 +1,6 @@
+#!/bin/sh
+
 cd
-
-
 
 #generate ssh key to pull
 ssh-keygen -t rsa -N "" -f '~/.ssh/id_rsa'

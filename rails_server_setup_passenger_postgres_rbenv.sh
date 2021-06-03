@@ -48,6 +48,13 @@ chmod 0440 /etc/sudoers.d/deploy
 # setup user stuff
 cd /home/deploy
 
+curl https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/user_ruby_setup.sh  --output user_script.sh
+
+chmod 750 user_script.sh
+chmod +x user_script.sh
+
+su deploy -c './user_script.sh'
+
 #add user to postgresql
 sudo -u postgres createuser deploy
 

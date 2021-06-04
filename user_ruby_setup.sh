@@ -20,4 +20,4 @@ echo 'RBENV installed'
 
 cd && git clone https://github.com/kolbasa/git-repo-watcher
 
-exit
+exit N

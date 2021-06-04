@@ -59,4 +59,7 @@ chmod +x user_script.sh
 
 su deploy -c './user_script.sh'
 
-exit 0
+# for some reason I find myself having to switch the deploy user's shell back to bash. this seems janky
+chsh -s /bin/bash deploy
+
+exit N

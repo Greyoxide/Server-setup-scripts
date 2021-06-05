@@ -3,8 +3,7 @@
 cd
 
 #generate ssh key to pull
-ssh-keygen -t rsa -N "" -f '~/.ssh/id_rsa'
-
+echo -e "\n"|ssh-keygen -t rsa -N ""
 echo 'SSH key generated'
 
 #setup Rbenv

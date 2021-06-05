@@ -39,9 +39,8 @@ usermod -aG sudo deploy
 
 echo 'deploy user created'
 
-
 #allow user to restart nginx
-echo 'deploy ALL=(ALL) NOPASSWD: /usr/sbin/service nginx start,/usr/sbin/service nginx stop,/usr/sbin/service nginx restart' >> /etc/sudoers.d/deploy
+echo 'deploy ALL=(ALL) NOPASSWD: /usr/sbin/service nginx start,/usr/sbin/service nginx stop,/usr/sbin/service nginx restart, /sbin/reboot' >> /etc/sudoers.d/deploy
 chmod 0440 /etc/sudoers.d/deploy
 
 #add user to postgresql
@@ -62,4 +61,8 @@ su deploy -c './user_script.sh'
 # for some reason I find myself having to switch the deploy user's shell back to bash. this seems janky
 chsh -s /bin/bash deploy
 
-exit N
+# copy SSH key from root
+cp ~/.ssh/authorized_keys /home/deploy/.ssh/authorized_keys
+chown -R deploy:deploy /home/deploy/.ssh
+
+echo 'AllowUsers deploy root' >> /etc/ssh/sshd_config

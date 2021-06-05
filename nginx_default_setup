@@ -1,0 +1,18 @@
+server {
+  listen 80;
+  listen [::]:80;
+
+  server_name _;
+  root /home/deploy/fabform/public;
+
+  passenger_enabled on;
+  passenger_app_env production;
+
+  # Allow uploads up to 100MB in size
+  client_max_body_size 100m;
+
+  location ~ ^/(assets|packs) {
+    expires max;
+    gzip_static on;
+  }
+}

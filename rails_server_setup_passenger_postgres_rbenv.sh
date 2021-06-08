@@ -65,4 +65,6 @@ chsh -s /bin/bash deploy
 cp ~/.ssh/authorized_keys /home/deploy/.ssh/authorized_keys
 chown -R deploy:deploy /home/deploy/.ssh
 
+sudo -u deploy bash -c "ssh-keygen -f ~deploy/.ssh/id_rsa -N ''"
+
 echo 'AllowUsers deploy root' >> /etc/ssh/sshd_config

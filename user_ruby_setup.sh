@@ -2,10 +2,6 @@
 
 cd
 
-#generate ssh key to pull
-echo -e "\n"|ssh-keygen -t rsa -N ""
-echo 'SSH key generated'
-
 #setup Rbenv
 
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
@@ -19,4 +15,4 @@ echo 'RBENV installed'
 
 cd && git clone https://github.com/kolbasa/git-repo-watcher
 
-exit N
+exit

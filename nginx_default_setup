@@ -3,7 +3,7 @@ server {
   listen [::]:80;
 
   server_name _;
-  root /home/deploy/fabform/public;
+  root /home/deploy/app/public;
 
   passenger_enabled on;
   passenger_app_env production;

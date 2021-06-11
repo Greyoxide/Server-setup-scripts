@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
+#variables
+PASS=$(diceware)
+DBPASS=$(diceware)
+REPO=$1
 
 apt-get update
 
@@ -12,7 +17,7 @@ apt install git-core zlib1g-dev build-essential libssl-dev libreadline-dev libya
 
 echo "Dependancies Installed"
 
-#Phusion PASSenger setup
+#Phusion passenger setup
 
 # Install our PGP key and add HTTPS support for APT
 sudo apt-get install -y dirmngr gnupg
@@ -26,14 +31,15 @@ sudo apt-get update
 # Install Passenger + Nginx module
 sudo apt-get install -y libnginx-mod-http-passenger
 
+# next we have to point passenger at the rbenv ruby version. Im going to do this by replacing the entire conf script rather than relying on a complicated sed command.
+rm /etc/nginx/conf.d/mod-http-passenger.conf
+curl 'https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/support/mod-http-passenger.conf' --output /etc/nginx/conf.d/mod-http-passenger.conf
+
 service nginx restart
 
 echo 'phusion passenger installed'
 
 #User Setup
-
-PASS=$(diceware)
-DBPASS=$(diceware)
 
 useradd -m -p $PASS deploy
 usermod -aG sudo deploy
@@ -61,7 +67,7 @@ echo "DBUSER: $DBPASS" >> out.txt
 curl https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/user_ruby_setup.sh  --output user_script.sh
 chmod 777 user_script.sh
 chmod +x user_script.sh
-su deploy -c './user_script.sh'
+su deploy -c './user_script.sh $repo'
 
 # for some reason I find myself having to switch the deploy user's shell back to bash. this seems janky
 chsh -s /bin/bash deploy
@@ -74,7 +80,3 @@ chown -R deploy:deploy /home/deploy/.ssh
 
 # allow ssh access to deploy user
 echo 'AllowUsers deploy root' >> /etc/ssh/sshd_config
-
-# next we have to point passenger at the rbenv ruby version.
-rm /etc/nginx/conf.d/mod-http-passenger.conf
-curl 'https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/mod-http-passenger.conf' --output /etc/nginx/conf.d/mod-http-passenger.conf

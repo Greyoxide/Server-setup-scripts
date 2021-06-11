@@ -14,8 +14,11 @@ git clone https://github.com/rbenv/rbenv-vars.git $(rbenv root)/plugins/rbenv-va
 
 echo 'RBENV installed'
 
-echo 'RAILS_ENV=production' >> ~/.bashrc
+cd && git clone $1 app
 
-cd && git clone https://github.com/kolbasa/git-repo-watcher
+curl 'https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/support/pull_changes.sh' --output pull_changes.sh
+chmod +x pull_changes.sh
+
+echo 'RAILS_ENV=production' >> ~/app/.rbenv-vars
 
 exit

@@ -1,8 +1,7 @@
 #!/bin/bash
 
 #variables
-PASS=$(diceware)
-DBPASS=$(diceware)
+
 REPO=$1
 
 apt-get update
@@ -40,6 +39,9 @@ service nginx restart
 echo 'phusion passenger installed'
 
 #User Setup
+
+PASS=$(diceware)
+DBPASS=$(diceware)
 
 useradd -m -p $PASS deploy
 usermod -aG sudo deploy

@@ -12,7 +12,7 @@ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
 
-apt install git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn postgresql libpq-dev nginx diceware -y
+apt install git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn postgresql libpq-dev nginx diceware redis -y
 
 echo "Dependancies Installed"
 
@@ -43,8 +43,12 @@ echo 'phusion passenger installed'
 PASS=$(diceware)
 DBPASS=$(diceware)
 
-useradd -m -p $PASS deploy
-usermod -aG sudo deploy
+adduser --quiet --disabled-password --gecos '' deploy
+echo 'deploy:$PASS' | chpasswd
+adduser deploy sudo
+
+# useradd -m -p $PASS deploy
+# usermod -aG sudo deploy
 
 echo 'deploy user created'
 
@@ -72,7 +76,7 @@ chmod +x user_script.sh
 su deploy -c './user_script.sh $repo'
 
 # for some reason I find myself having to switch the deploy user's shell back to bash. this seems janky
-chsh -s /bin/bash deploy
+# chsh -s /bin/bash deploy
 
 sudo -u deploy bash -c "ssh-keygen -f ~deploy/.ssh/id_rsa -N ''"
 

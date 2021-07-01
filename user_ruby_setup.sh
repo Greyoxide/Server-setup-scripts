@@ -14,7 +14,9 @@ git clone https://github.com/rbenv/rbenv-vars.git $(rbenv root)/plugins/rbenv-va
 
 echo 'RBENV installed'
 
-cd && git clone $1 app
+gem install bundler rails
+
+rbenv rehash
 
 curl 'https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/support/pull_changes.sh' --output pull_changes.sh
 chmod +x pull_changes.sh

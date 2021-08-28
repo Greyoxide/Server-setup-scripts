@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#variables
-
-REPO=$1
-
 apt-get update
 
 sudo apt install curl
@@ -12,7 +8,7 @@ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
 
-apt install git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn postgresql libpq-dev nginx diceware redis yarn imagemagick -y
+apt install git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn postgresql libpq-dev nginx diceware redis yarn imagemagick ufw -y
 
 echo "Dependancies Installed"
 
@@ -38,6 +34,23 @@ service nginx restart
 
 echo 'phusion passenger installed'
 
+# Configure ufw
+
+ufw default deny incoming
+ufw default deny outgoing
+ufw limit ssh
+ufw allow git
+# Should I allow http traffic?
+ufw allow out http
+ufw allow in http
+
+ufw allow out https
+ufw allow in https
+ufw allow out 53
+ufw logging on
+ufw enable
+
+
 #User Setup
 
 PASS=$(diceware)
@@ -46,9 +59,6 @@ DBPASS=$(diceware)
 adduser --quiet --disabled-password --gecos '' deploy
 echo 'deploy:$PASS' | chpasswd
 adduser deploy sudo
-
-# useradd -m -p $PASS deploy
-# usermod -aG sudo deploy
 
 echo 'deploy user created'
 
@@ -75,10 +85,12 @@ chmod 777 user_script.sh
 chmod +x user_script.sh
 su deploy -c './user_script.sh $repo'
 
-# for some reason I find myself having to switch the deploy user's shell back to bash. this seems janky
-# chsh -s /bin/bash deploy
+# Theres prolly a better way to append a space... but I don't know it.
+echo '===========SSH===========' >> out.txt
 
+# Generate an SSH key so we can pull from Github.
 sudo -u deploy bash -c "ssh-keygen -f ~deploy/.ssh/id_rsa -N ''"
+echo cat /home/deploy/.ssh/id_rsa.pub >> out.txt
 
 # copy SSH key from root to deploy
 cp ~/.ssh/authorized_keys /home/deploy/.ssh/authorized_keys

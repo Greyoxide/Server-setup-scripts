@@ -4,7 +4,9 @@ server {
 
   server_name _;
   root /home/deploy/app/public;
-  
+
+  passenger_enabled on;
+  passenger_app_env production;
 
   # Allow uploads up to 100MB in size
   client_max_body_size 100m;

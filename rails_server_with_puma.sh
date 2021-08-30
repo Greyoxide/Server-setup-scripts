@@ -21,9 +21,6 @@ adduser --quiet --disabled-password --gecos '' deploy
 echo 'deploy:$PASS' | chpasswd
 adduser deploy sudo
 
-# useradd -m -p $PASS deploy
-# usermod -aG sudo deploy
-
 echo 'deploy user created'
 
 #allow user to restart nginx
@@ -36,6 +33,8 @@ sudo -u postgres psql -c "ALTER USER app_user WITH PASSWORD '$DBPASS';"
 sudo -u postgres psql -c "ALTER USER app_user CREATEDB"
 
 echo 'database user created'
+
+# Next let's grab the NGINX config file
 
 # setup user stuff
 cd /home/deploy

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set +o noclobber
+
 apt-get update
 
 sudo apt install curl
@@ -29,6 +31,10 @@ sudo apt-get install -y libnginx-mod-http-passenger
 # next we have to point passenger at the rbenv ruby version. Im going to do this by replacing the entire conf script rather than relying on a complicated sed command.
 rm /etc/nginx/conf.d/mod-http-passenger.conf
 curl 'https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/support/mod-http-passenger.conf' --output /etc/nginx/conf.d/mod-http-passenger.conf
+
+# Now let's grab the NGINX site config file
+
+curl 'https://github.com/Greyoxide/Server-setup-scripts/blob/8073f08320c83a0e8ef19964cc35ebdfee04d66d/support/default' > /etc/nginx/sites-enabled/default
 
 service nginx restart
 

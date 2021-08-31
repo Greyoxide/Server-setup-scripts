@@ -40,22 +40,6 @@ service nginx restart
 
 echo 'phusion passenger installed'
 
-# Configure ufw
-
-ufw default deny incoming
-ufw default deny outgoing
-ufw limit ssh
-ufw allow git
-# Should I allow http traffic?
-ufw allow out http
-ufw allow in http
-
-ufw allow out https
-ufw allow in https
-ufw allow out 53
-ufw logging on
-ufw enable
-
 #User Setup
 
 PASS=$(diceware)
@@ -103,3 +87,19 @@ chown -R deploy:deploy /home/deploy/.ssh
 
 # allow ssh access to deploy user
 echo 'AllowUsers deploy root' >> /etc/ssh/sshd_config
+
+# Configure ufw
+
+ufw default deny incoming
+ufw default deny outgoing
+ufw limit ssh
+ufw allow git
+# Should I allow http traffic?
+ufw allow out http
+ufw allow in http
+
+ufw allow out https
+ufw allow in https
+ufw allow out 53
+ufw logging on
+ufw enable

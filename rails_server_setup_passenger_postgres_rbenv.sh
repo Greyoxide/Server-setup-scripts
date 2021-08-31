@@ -34,7 +34,7 @@ curl 'https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/su
 
 # Now let's grab the NGINX site config file
 
-curl 'https://github.com/Greyoxide/Server-setup-scripts/blob/8073f08320c83a0e8ef19964cc35ebdfee04d66d/support/default' > /etc/nginx/sites-enabled/default
+curl 'https://raw.githubusercontent.com/Greyoxide/Server-setup-scripts/master/support/nginx_passenger_default_setup' > /etc/nginx/sites-enabled/default
 
 service nginx restart
 
@@ -55,7 +55,6 @@ ufw allow in https
 ufw allow out 53
 ufw logging on
 ufw enable
-
 
 #User Setup
 

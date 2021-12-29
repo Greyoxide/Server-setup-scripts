@@ -3,6 +3,7 @@
 set +o noclobber
 
 apt-get update
+apt-get upgrade -y
 
 sudo apt install curl
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
